@@ -3,10 +3,14 @@
 
 int main(void)
 {
- 
+	
+    int k,i,j,x,y,temporal;
+    printf("Introduce el numero de filas y columnas de la matriz A:\n");
+    scanf("%d",x);
+	 
     int mat[3][3],mat2[3][3], resultado[3][3];
 
-    int k,i,j,temporal;
+
 
     //printf("Introduce 9 valores para la primera matriz:\n");
     for(i=0;i<3;i++)
