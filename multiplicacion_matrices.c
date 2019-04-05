@@ -8,21 +8,23 @@ int main(void)
 
     int k,i,j,temporal;
 
-    printf("Introduce 9 valores para la primera matriz:\n");
+    //printf("Introduce 9 valores para la primera matriz:\n");
     for(i=0;i<3;i++)
        {
         for(j=0;j<3;j++)
 	   {
-            scanf("%d",&mat[i][j]);	    
+            //scanf("%d",&mat[i][j]);
+	    mat[i][j] = rand() % 11;	    
            }
         }
  
-    printf("Introduce 9 valores para la segunda matriz:\n");
+    //printf("Introduce 9 valores para la segunda matriz:\n");
     for(i=0;i<3;i++)
        {
         for(j=0;j<3;j++)
 	   {
-            scanf("%d",&mat2[i][j]);
+            //scanf("%d",&mat2[i][j]);
+	    mat2[i][j]	= rand() % 11;
            }
         }
             
