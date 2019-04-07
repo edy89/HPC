@@ -8,51 +8,47 @@ int main()
     int k,i,j,x,y,temporal;
     srand (time(NULL));
     
-    printf("Introduce la dimension de la matriz A: ");
+    printf("Introduce la dimension de la matrices: ");
     scanf("%d",&x);
 	 
     int mat[x][x],mat2[x][x], resultado[x][x];
 
 
 
-    //printf("Introduce 9 valores para la primera matriz:\n");
     for(i=0;i<x;i++)
        {
         for(j=0;j<x;j++)
 	   {
-            //scanf("%d",&mat[i][j]);
 	    mat[i][j] = rand() % 11;	    
            }
         }
  
-    //printf("Introduce 9 valores para la segunda matriz:\n");
+    
     for(i=0;i<x;i++)
        {
         for(j=0;j<x;j++)
-	   {
-            //scanf("%d",&mat2[i][j]);
-	    mat2[i][j]	= rand() % 11;
-           }
+	    {
+	     mat2[i][j]	= rand() % 11;
+            }
         }
             
-	printf("\n");
+            
+	printf("\nmatriz A:\n");
 	for(i=0;i<x;i++)
 	   {
 	    printf("\n\t\t");
 	    for(j=0;j<x;j++)
 	       {
-		    //printf("%c,%d,%c","[", resultado[i][j],"]");
-		    printf("[ %d ]", mat[i][j]);
+		printf("[ %d ]", mat[i][j]);
 	       }
 	   }
 	   
-	printf("\n");
+	printf("\nmatriz B:\n");
 	for(i=0;i<x;i++)
 	   {
 	    printf("\n\t\t");
 	    for(j=0;j<x;j++)
 	       {
-		    //printf("%c,%d,%c","[", resultado[i][j],"]");
 		    printf("[ %d ]", mat2[i][j]);
 	       }
 	   }
@@ -71,17 +67,15 @@ int main()
     	}
     	
     printf("\n");
-	printf("***LA MATRIZ PRODUCTO DE LAS 2 MATRICES INDICADAS ES:\n");
-	
-	printf("\n");
-	for(i=0;i<x;i++)
-	   {
-	    printf("\n\t\t");
-	    for(j=0;j<x;j++)
-	       {
-		    //printf("%c,%d,%c","[", resultado[i][j],"]");
-		    printf("[ %d ]", resultado[i][j]);
-	       }
+    printf("***LA MATRIZ PRODUCTO DE LAS 2 MATRICES INDICADAS ES:\n");
+    printf("\n");
+    for(i=0;i<x;i++)
+       {
+        printf("\n\t\t");
+        for(j=0;j<x;j++)
+           {
+  	    printf("[ %d ]", resultado[i][j]);
 	   }
+	}
 return 0;
 }
