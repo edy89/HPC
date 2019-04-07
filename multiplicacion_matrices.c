@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-int main(void)
+int main()
 {
 	
     int k,i,j,x,y,temporal;
     srand (time(NULL));
+    
     printf("Introduce la dimension de la matriz A: ");
     scanf("%d",&x);
 	 
@@ -34,7 +35,27 @@ int main(void)
            }
         }
             
-
+	printf("\n");
+	for(i=0;i<x;i++)
+	   {
+	    printf("\n\t\t");
+	    for(j=0;j<x;j++)
+	       {
+		    //printf("%c,%d,%c","[", resultado[i][j],"]");
+		    printf("[ %d ]", mat[i][j]);
+	       }
+	   }
+	   
+	printf("\n");
+	for(i=0;i<x;i++)
+	   {
+	    printf("\n\t\t");
+	    for(j=0;j<x;j++)
+	       {
+		    //printf("%c,%d,%c","[", resultado[i][j],"]");
+		    printf("[ %d ]", mat2[i][j]);
+	       }
+	   }
 
     for (i = 0 ; i < x ; i++ ) //i para las filas de la matriz resultante
        {
@@ -48,8 +69,9 @@ int main(void)
                 }
             }
     	}
-
-	printf("***LA MATRIZ PRODUCTO DE LAS 2 INDICADAS ES:\n");
+    	
+    printf("\n");
+	printf("***LA MATRIZ PRODUCTO DE LAS 2 MATRICES INDICADAS ES:\n");
 	
 	printf("\n");
 	for(i=0;i<x;i++)
