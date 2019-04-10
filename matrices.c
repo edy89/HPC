@@ -33,8 +33,7 @@
 void *imprimir(void *args)
 {
     int i,x,j;
-    int resultado = (int *)args;
-    printf(resultado);
+    int *matriz = 
     /*printf("\n");
     printf("***LA MATRIZ PRODUCTO DE LAS 2 MATRICES INDICADAS ES:\n");
     printf("\n");
@@ -120,9 +119,9 @@ int main(int argc, const char *argv[])
 
 //pthread_t h1;
 pthread_t h2;
-int *matriz = resultado;
+
 //pthread_create(&h1,NULL,multiplicar(x,mat[][],mat2[][]),NULL);
-pthread_create(&h2,NULL,imprimir,(void *)matriz);
+pthread_create(&h2,NULL,imprimir,NULL);
 
 return 0;
 }
