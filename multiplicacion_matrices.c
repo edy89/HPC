@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+//https://computing.llnl.gov/tutorials/parallel_comp/
 int main()
 {
 	
