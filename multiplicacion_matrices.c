@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 //https://computing.llnl.gov/tutorials/parallel_comp/
+//https://www.um.es/earlyadopters/actividades/a3/PCD_Activity3_Session1.pdf
 int main()
 {
 	
