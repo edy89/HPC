@@ -1,0 +1,14 @@
+
+
+real	0m0.001s
+user	0m0.001s
+sys	0m0.000s
+
+real	0m0.013s
+user	0m0.013s
+sys	0m0.000s
+./script.sh: línea 17: 19637 Violación de segmento  (`core' generado) ./mulma 1000
+
+real	0m0.230s
+user	0m0.001s
+sys	0m0.001s
