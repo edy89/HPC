@@ -1,29 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+//#include <string.h>
 //https://computing.llnl.gov/tutorials/parallel_comp/
 //https://www.um.es/earlyadopters/actividades/a3/PCD_Activity3_Session1.pdf
 int main(int argc, char *argv[])
 {
 	
-   //argc cuenta la cantidad de datos que llegan en argv
-   //Si le llega solo uno es por que solo le llego el nombre del archivo 
-    if (argc==1)
-   {
-       printf("Debes ingresar mas parametros...\n");
-       return 1;
-   }
+   int count;
+ 
+  //printf ("This program was called with \"%s\".\n",argv[0]);
+  /*
+  if (argc > 1)
+    {
+      for (count = 1; count < argc; count++)
+    {
+      printf("argv[%d] = %s\n", count, argv[count]);
+    }
+    }
+  else
+    {
+      printf("The command had no other arguments.\n");
+    }
+ 
+  return 0;
+  */
    //printf("Hola %c",*argv[1]);
+   //printf( "Tamaño de la cadena: %i bytes\n", sizeof arqv[1] );
 
-   //char *data[10]=&argv[1];
+   char *c;
+   long op=strtol(argv[1],&c,10) ;
+   //printf("Hola %lu",op);
 
-   char *a;
-   a=(char *)argv[1];
-   //printf("Holaaa %c",*a);
-   
 
-    int x=atoi(a);
-    //printf("Holaaaaa %d",x);
+
+    
+    long x=op;
+    //printf("Holaaaaa %lu",x);
     int k,i,j,y,temporal;
     srand (time(NULL));
     
@@ -66,9 +79,11 @@ int main(int argc, char *argv[])
                 }
             }
     	}
+      
     	
   /*
   printf("matriz A:");
+
   for(i=0;i<x;i++)
      {
       printf("\n\t\t");

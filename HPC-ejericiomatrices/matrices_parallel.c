@@ -68,7 +68,7 @@ void *multiplicar_matrices(void *args)
                 }
             }
     	}
-
+      /*
     printf("%s", "MAtriz Resultado: \n");
 
     for(i=0;i < m -> dimension ;i++)
@@ -78,17 +78,25 @@ void *multiplicar_matrices(void *args)
            {
   	    	printf("[ %d ]", m -> matriz[i][j]);
 	   	   }
-		}
+		}*/
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
 
-	int i,j,x;
+
+	  int i,j;
     srand (time(NULL));
+    char *c;
+    long op=strtol(argv[1],&c,10) ;
+    //printf("Hola %lu",op);
+
+
+
     
-    printf("Introduce la dimension de la matrices: ");
-    scanf("%d",&x);
+    int x=op;
+    //printf("Holaaaaa %lu",x);
+
 	 
     pthread_t hilo1,hilo2,hilo3,hilo4,hilo5,hilo6;
 
@@ -125,10 +133,10 @@ int main(int argc, char const *argv[])
 	mul_matrices.matrizA = packmA.matriz;
 	pthread_join(hilo2,NULL);
 	mul_matrices.matrizB = packmA.matriz;
-	pthread_create(&hilo4,NULL,imprimir,(void *)&packmA);
-	pthread_create(&hilo5,NULL,imprimir,(void *)&packmB);
-	pthread_join(hilo4,NULL);
-	pthread_join(hilo5,NULL);
+	//pthread_create(&hilo4,NULL,imprimir,(void *)&packmA);
+  //pthread_join(hilo4,NULL);
+	//pthread_create(&hilo5,NULL,imprimir,(void *)&packmB);
+	//pthread_join(hilo5,NULL);
 	pthread_create(&hilo3,NULL,multiplicar_matrices,(void *)&mul_matrices);
 	pthread_join(hilo3,NULL);
 

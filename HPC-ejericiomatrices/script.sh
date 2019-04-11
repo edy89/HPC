@@ -2,20 +2,30 @@
 # A sample Bash script, by Ryan
 cd /home/kalugy/Escritorio/HPC/HPC-ejericiomatrices
 gcc multiplicacion_matrices.c -o mulma
-
+gcc matrices_parallel.c -o mulmapa -lpthread
 #(time -o datos.txt ./mulma 2) 
  
 echo "" &> datosexcel.ods	
 
-#for VARIABLE in 10 100 1000 10000 100000 1000000 10000000
-#do
+for VARIABLE in 10 100 200 300 400 500 600 700 800 
+do
 	#echo $VARIABLE
-	#(time ./mulma $VARIABLE) &>> datosexcel.ods
-#done
-(time ./mulma 10) &>> datosexcel.ods
-(time ./mulma 100) &>> datosexcel.ods
-(time ./mulma 1000) &>> datosexcel.ods
-#(time ./mulma 10000) &>> datosexcel.ods
+	(time ./mulma $VARIABLE) &>> datosexcel.ods
+done
+
+
+
+for VARIABLE in 10 100 200 300 400 500 600 700 800  
+do
+	#echo $VARIABLE
+	(time ./mulmapa $VARIABLE) &>> datosexcel.ods
+done
+
+#(time ./mulma 1) &>> datosexcel.ods
+#(time ./mulma 10) &>> datosexcel.ods
+#(time ./mulma 200) &>> datosexcel.ods
+#(time ./mulma 2000) &>> datosexcel.ods
+#./mulma 810
 #(time ./mulma 100000) &>> datosexcel.ods
 #(time ./mulma 1000000) &>> datosexcel.ods
 #(time ./mulma 10000000) &>> datosexcel.ods
