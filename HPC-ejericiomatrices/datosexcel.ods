@@ -1,82 +1,9 @@
 
-
-real	0m0.002s
-user	0m0.001s
-sys	0m0.000s
-
-real	0m0.011s
-user	0m0.011s
-sys	0m0.000s
-
-real	0m0.061s
-user	0m0.057s
-sys	0m0.004s
-
-real	0m0.213s
-user	0m0.211s
-sys	0m0.000s
-
-real	0m0.500s
-user	0m0.494s
-sys	0m0.004s
-
-real	0m1.042s
-user	0m1.041s
-sys	0m0.000s
-
-real	0m1.975s
-user	0m1.963s
-sys	0m0.008s
-
-real	0m3.385s
-user	0m3.382s
-sys	0m0.000s
-
-real	0m5.538s
-user	0m5.516s
-sys	0m0.020s
-./script.sh: línea 19:   960 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m0.204s
-user	0m0.001s
-sys	0m0.002s
-./script.sh: línea 19:   966 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m0.228s
-user	0m0.027s
-sys	0m0.009s
-./script.sh: línea 19:   973 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m0.309s
-user	0m0.096s
-sys	0m0.048s
-./script.sh: línea 19:   982 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m0.562s
-user	0m0.324s
-sys	0m0.128s
-./script.sh: línea 19:   988 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m0.972s
-user	0m0.765s
-sys	0m0.068s
-./script.sh: línea 19:   994 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m2.088s
-user	0m1.831s
-sys	0m0.252s
-./script.sh: línea 19:  1015 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m3.310s
-user	0m3.119s
-sys	0m0.137s
-./script.sh: línea 19:  1034 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m5.773s
-user	0m5.462s
-sys	0m0.652s
-./script.sh: línea 19:  1050 Abortado                (`core' generado) ./mulmapa $VARIABLE
-
-real	0m9.474s
-user	0m8.982s
-sys	0m1.123s
+7.207692
+0.037384
+Holaaaaa 10 
+0.000103
+Holaaaaa 100 
+0.004992
+Holaaaaa 1000 
+6.788945

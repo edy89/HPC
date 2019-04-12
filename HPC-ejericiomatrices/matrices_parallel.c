@@ -90,12 +90,13 @@ int main(int argc, char *argv[])
     char *c;
     long op=strtol(argv[1],&c,10) ;
     //printf("Hola %lu",op);
-
+    clock_t start_t, end_t;
+    double duration;
 
 
     
-    int x=op;
-    //printf("Holaaaaa %lu",x);
+    int x=(int)op;
+    printf("Holaaaaa %d \n",x);
 
 	 
     pthread_t hilo1,hilo2,hilo3,hilo4,hilo5,hilo6;
@@ -132,13 +133,18 @@ int main(int argc, char *argv[])
 	pthread_join(hilo1,NULL);
 	mul_matrices.matrizA = packmA.matriz;
 	pthread_join(hilo2,NULL);
-	mul_matrices.matrizB = packmA.matriz;
+	mul_matrices.matrizB = packmB.matriz;
 	//pthread_create(&hilo4,NULL,imprimir,(void *)&packmA);
   //pthread_join(hilo4,NULL);
 	//pthread_create(&hilo5,NULL,imprimir,(void *)&packmB);
 	//pthread_join(hilo5,NULL);
+  start_t = clock();
 	pthread_create(&hilo3,NULL,multiplicar_matrices,(void *)&mul_matrices);
 	pthread_join(hilo3,NULL);
+  end_t = clock();
+  duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+  printf("%f\n",duration);
+
 
 	for (i = 0;i < x;i++)
 	 {

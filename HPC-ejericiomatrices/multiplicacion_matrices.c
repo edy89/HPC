@@ -29,29 +29,38 @@ int main(int argc, char *argv[])
    //printf( "Tamaño de la cadena: %i bytes\n", sizeof arqv[1] );
 
    char *c;
-   long op=strtol(argv[1],&c,10) ;
+   int op=strtol(argv[1],&c,10) ;
    //printf("Hola %lu",op);
-
-
+   clock_t start_t, end_t;
+   double duration;
 
     
-    long x=op;
+    int x=op;
     //printf("Holaaaaa %lu",x);
     int k,i,j,y,temporal;
     srand (time(NULL));
-    
 
+
+
+    int **mat,**mat2, **resultado;
+    //mat = (int **)calloc(x,sizeof(int *));
+    mat = (int **)calloc(x,sizeof(int *));
+    mat2= (int **)calloc(x,sizeof(int *));
+    resultado = (int **)calloc(x,sizeof(int *));
+    for(i=0;i<x;i++)
+       {
+        mat[i]= (int *)calloc(x,sizeof(int));
+        mat2[i]= (int *)calloc(x,sizeof(int));
+        resultado[i]= (int *)calloc(x,sizeof(int));
+       }
 	 
     
-    int mat[x][x],mat2[x][x], resultado[x][x];
-
-
-
+  
     for(i=0;i<x;i++)
        {
         for(j=0;j<x;j++)
 	   {
-	    mat[i][j] = rand() % 11;	    
+	       mat[i][j] = rand() % 11;	    
            }
         }
  
@@ -66,7 +75,12 @@ int main(int argc, char *argv[])
             
             
 
-
+      start_t = clock();
+   //printf("Starting of the program, start_t = %ld\n", start_t);
+    
+   //printf("Going to scan a big loop, start_t = %ld\n", start_t);
+   
+   
     for (i = 0 ; i < x ; i++ ) //i para las filas de la matriz resultante
        {
         for (k = 0 ; k < x ; k++ ) // k para las columnas de la matriz resultante
@@ -80,7 +94,10 @@ int main(int argc, char *argv[])
             }
     	}
       
-    	
+    	end_t = clock();
+      duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+      printf("%f\n",duration);
+
   /*
   printf("matriz A:");
 
@@ -117,5 +134,18 @@ int main(int argc, char *argv[])
   printf("\n");
 
 */
+
+
+for (i = 0;i < x;i++)
+ {
+  free(mat[i]);
+  free(mat2[i]);
+  free(resultado[i]);
+ }
+ 
+  free(mat);
+  free(mat2);
+  free(resultado);
+
 return 0;
 }

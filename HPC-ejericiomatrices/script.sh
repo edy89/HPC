@@ -1,24 +1,24 @@
 #!/bin/bash
 # A sample Bash script, by Ryan
-cd /home/kalugy/Escritorio/HPC/HPC-ejericiomatrices
+cd /home/utp/Escritorio/HPC/HPC-ejericiomatrices
 gcc multiplicacion_matrices.c -o mulma
 gcc matrices_parallel.c -o mulmapa -lpthread
 #(time -o datos.txt ./mulma 2) 
  
 echo "" &> datosexcel.ods	
 
-for VARIABLE in 10 100 200 300 400 500 600 700 800 
+for VARIABLE in 1000 200
 do
 	#echo $VARIABLE
-	(time ./mulma $VARIABLE) &>> datosexcel.ods
+	./mulma $VARIABLE &>> datosexcel.ods
 done
 
 
 
-for VARIABLE in 10 100 200 300 400 500 600 700 800  
+for VARIABLE in 10 100 1000	
 do
 	#echo $VARIABLE
-	(time ./mulmapa $VARIABLE) &>> datosexcel.ods
+	./mulmapa $VARIABLE &>> datosexcel.ods
 done
 
 #(time ./mulma 1) &>> datosexcel.ods
