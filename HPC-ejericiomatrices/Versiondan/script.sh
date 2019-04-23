@@ -1,13 +1,14 @@
 #!/bin/bash
 # A sample Bash script, by Ryan
-#cd /home/kalugy/Escritorio/HPC/HPC-ejericiomatrices
-#gcc multiplicacion_matrices.c -o mulma
-#gcc matrices_parallel.c -o mulmapa -lpthread
+cd /home/kalugy/Escritorio/HPC/HPC-ejericiomatrices/Versiondan
+gcc matricesed.c -o maed
+gcc matrices_parallel.c -o mulmapa -lpthread
 #(time -o datos.txt ./mulma 2) 
  
 echo "" &> datosexcel.ods	
 
-./mulma &>> datosexcel.ods
+./mulmapa &>> datosexcel.ods
+#./maed 10 &>> datosexcel.ods
 
 #for VARIABLE in 1000 200
 #do

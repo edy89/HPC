@@ -35,13 +35,13 @@ int main(int argc, char *argv[])
    double duration;
 
     
-    int x=op;
+    int x=2;
     //printf("Holaaaaa %lu",x);
     int k,i,j,y,temporal;
     srand (time(NULL));
 
 
-
+    /*
     int **mat,**mat2, **resultado;
     //mat = (int **)calloc(x,sizeof(int *));
     mat = (int **)calloc(x,sizeof(int *));
@@ -54,7 +54,9 @@ int main(int argc, char *argv[])
         resultado[i]= (int *)calloc(x,sizeof(int));
        }
 	 
-    
+    */
+
+
   
     for(i=0;i<x;i++)
        {
