@@ -1,5 +1,6 @@
-  //cd C:\Users\Edyson\GitHub\HPC\HPC-ejericiomatrices
+//cd C:\Users\Edyson\GitHub\HPC\HPC-ejericiomatrices
 #include <sys/types.h>
+#include <wait.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -45,7 +46,7 @@ void liberar_matrices(int **x,int **y, int **z, int c)
   return;
 }
 
-void llenar_matriz(int **x,int c)
+/*void llenar_matriz(int **x,int c)
 {
     int i,j;
     for(i=0;i<c;i++)
@@ -57,7 +58,23 @@ void llenar_matriz(int **x,int c)
         }
 
  return;
+}*/
+
+int **llenar_matriz(int c)
+{
+    int **x;
+    int i,j;
+    for(i=0;i<c;i++)
+       {
+        for(j=0;j<c;j++)
+           {
+            x[i][j] = rand() % 11;     
+           }
+        }
+
+ return x;
 }
+
 
 int **multiplicar(int **x,int **y,int c)
 {
@@ -97,53 +114,70 @@ int main(int argc, char *argv[])
 {
     srand (time(NULL));
 
-    
+    pid_t pid;
     clock_t start_t, end_t;
 
     int k,i,j,y,temporal;
     int parametro,x;    
     double duration;
-    int **mat,**mat2, **resultado;    
+    int **mat,**mat2, **resultado;
+    int estadoHijo;    
 
     parametro = atoi(argv[1]);
     x = parametro;
-    
     printf("%d\n", x);
-    pid_t pid;
-    pid = fork();
+
     //reservar_matrices(mat,mat2,resultado,x);
     //llenar_matriz(mat,x);
     //llenar_matriz(mat2,x);
 
     start_t = clock();
-    
+    pid = fork();
+
+
+
     if (pid == -1) 
       { 
         perror ("No se puede crear proceso");
         exit (-1);
       }
-      
-    
-    //else 
-    //    if (pid > 0)
-    //    {
-    //     reservar_matrices(mat,mat2,resultado,x);
-    //     llenar_matriz(mat,x);
-         /*llenar_matriz(mat2,x);
-         imprimir_matriz(mat,x);
+    if (pid > 0)
+        {
+         //sleep(1);
+         reservar_matrices(mat,mat2,resultado,x);
+         //mat = llenar_matriz(x);
+         //llenar_matriz(mat,x);
+         //llenar_matriz(mat2,x);
+         //imprimir_matriz(mat,x);
+         /*imprimir_matriz(mat2,x);
          liberar_matrices(mat,mat2,resultado,x);*/
-    //    }
-    //     else
-    //          if (pid == 0)
-    //          {
-    //            imprimir_matriz(mat,x);
-    //            liberar_matrices(mat,mat2,resultado,x);
-    //          }
+        /* wait (&estadoHijo);
 
-    //end_t = clock();
-    //duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+         if (WIFEXITED(estadoHijo) != 0)
+          {
+            printf ("Padre : Mi hijo ha salido. Devuelve %d\n", WEXITSTATUS(estadoHijo));
+          }*/
+         
+
+        }
+    if (pid == 0)
+        {
+         mat = llenar_matriz(x);
+         //imprimir_matriz(mat,x);
+         /*reservar_matrices(mat,mat2,resultado,x);
+         llenar_matriz(mat,x);
+         llenar_matriz(mat2,x);*/
+         //sleep(3);
+          //exit(33);
+        }
+
+    imprimir_matriz(mat,x);
+
+    end_t = clock();
+    duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
     //printf("%f\n",duration);
-    
+ 
     return 0;
 }
+
 
