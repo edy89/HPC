@@ -46,7 +46,7 @@ void liberar_matrices(int **x,int **y, int **z, int c)
   return;
 }
 
-/*void llenar_matriz(int **x,int c)
+void llenar_matriz2(int **x,int c)
 {
     int i,j;
     for(i=0;i<c;i++)
@@ -58,7 +58,7 @@ void liberar_matrices(int **x,int **y, int **z, int c)
         }
 
  return;
-}*/
+}
 
 int **llenar_matriz(int c)
 {
@@ -134,7 +134,8 @@ int main(int argc, char *argv[])
     start_t = clock();
     pid = fork();
 
-
+    reservar_matrices(mat,mat2,resultado,x);
+    llenar_matriz2(mat,x);
 
     if (pid == -1) 
       { 
@@ -144,7 +145,7 @@ int main(int argc, char *argv[])
     if (pid > 0)
         {
          //sleep(1);
-         reservar_matrices(mat,mat2,resultado,x);
+         //printf("padre" );
          //mat = llenar_matriz(x);
          //llenar_matriz(mat,x);
          //llenar_matriz(mat2,x);
@@ -162,7 +163,8 @@ int main(int argc, char *argv[])
         }
     if (pid == 0)
         {
-         mat = llenar_matriz(x);
+         printf("hijito" ); 
+         
          //imprimir_matriz(mat,x);
          /*reservar_matrices(mat,mat2,resultado,x);
          llenar_matriz(mat,x);
@@ -171,7 +173,7 @@ int main(int argc, char *argv[])
           //exit(33);
         }
 
-    imprimir_matriz(mat,x);
+    //imprimir_matriz(mat,x);
 
     end_t = clock();
     duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
