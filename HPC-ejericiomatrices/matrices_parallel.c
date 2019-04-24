@@ -77,6 +77,7 @@ void *llenar_matriz(void *args)
 
 void *multiplicar_matrices(void *args)
 {
+	
 	pack_matrices  *m = (pack_matrices *)args;
 	int i,j,k,temporal;
 
