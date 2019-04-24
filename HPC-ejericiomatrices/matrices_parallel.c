@@ -37,7 +37,7 @@ void *imprimir(void *args)
 	printf("\n");
 }
 
-void *llenar_matriz(void *args)
+/*void *llenar_matriz(void *args)
 {
 	pack  *m = (pack *)args;
 	int i,j,x;
@@ -49,7 +49,31 @@ void *llenar_matriz(void *args)
   	    	m -> matriz[i][j] = rand() % 11;
 	   	   }
 		}
+}*/
+
+
+void *llenar_matriz(void *args)
+{
+	pack_matrices  *m = (pack_matrices *)args;
+	int i,j,x;
+
+    for(i=0;i < m -> dimension ;i++)
+       {
+        for(j = 0;j < m -> dimension ; j++)
+           {
+  	    	m -> matrizA[i][j] = rand() % 11;
+	   	   }
+		}
+
+	for(i=0;i < m -> dimension ;i++)
+       {
+        for(j = 0;j < m -> dimension ; j++)
+           {
+  	    	m -> matrizB[i][j] = rand() % 11;
+	   	   }
+		}
 }
+
 
 void *multiplicar_matrices(void *args)
 {
@@ -81,11 +105,12 @@ void *multiplicar_matrices(void *args)
 		}*/
 }
 
+
 int main(int argc, char *argv[])
 {
 
 
-	  int i,j;
+	int i,j;
     srand (time(NULL));
     char *c;
     long op=strtol(argv[1],&c,10) ;
@@ -128,12 +153,12 @@ int main(int argc, char *argv[])
        }
          
 
-	pthread_create(&hilo1,NULL,llenar_matriz,(void *)&packmA);
-	pthread_create(&hilo2,NULL,llenar_matriz,(void *)&packmB);
+	pthread_create(&hilo1,NULL,llenar_matriz,(void *)&mul_matrices);
+	//pthread_create(&hilo2,NULL,llenar_matriz,(void *)&packmB);
 	pthread_join(hilo1,NULL);
-	mul_matrices.matrizA = packmA.matriz;
-	pthread_join(hilo2,NULL);
-	mul_matrices.matrizB = packmB.matriz;
+	//mul_matrices.matrizA = packmA.matriz;
+	//pthread_join(hilo2,NULL);
+	//mul_matrices.matrizB = packmB.matriz;
 	//pthread_create(&hilo4,NULL,imprimir,(void *)&packmA);
   //pthread_join(hilo4,NULL);
 	//pthread_create(&hilo5,NULL,imprimir,(void *)&packmB);
@@ -163,4 +188,6 @@ int main(int argc, char *argv[])
 
  return 0;
 }
+
+
 
