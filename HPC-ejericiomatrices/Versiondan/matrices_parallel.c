@@ -16,7 +16,7 @@ typedef struct
 
 typedef struct 
 {
-  int **matrizA,**matrizB,**matriz,dimension;
+  int **matrizA,**matrizB,**matriz,dimension, estado,estado2,estado3;
   char id;
 }pack_matrices;
 
@@ -71,7 +71,7 @@ void *llenar_matriz(void *args)
           m -> matrizB[i][j] = rand() % 11;
          }
     }
-
+    /*
     for(i=0;i < m -> dimension ;i++)
        {
         printf("\n\t\t");
@@ -88,6 +88,7 @@ void *llenar_matriz(void *args)
           printf("[ %d ]", m -> matrizB[i][j]);
          }
     }
+    */
 
 
 }
@@ -123,12 +124,15 @@ void *multiplicar_matrices(void *args)
 }
 void *multiplicar_matricesfila(void *args)
 {
-  pack_matrices  *m = (pack_matrices *)args;
-  int i,j,k,temporal;
 
-    for (i = 0 ; i < m -> dimension ; i++ ) //i para las filas de la matriz resultante
+  pack_matrices  *m = (pack_matrices *)args;
+  int i,j,k,temporal,status,status1;
+  status=m->estado;
+  status1=status+1;
+  //printf("este \n%d estado",status );
+  for (i = status ; i < status1 ; i++ ) //i para las filas de la matriz resultante
        {
-        for (k = 0 ; k < m -> dimension ; k++ ) // k para las columnas de la matriz resultante
+        for (k = 0 ; k < m->dimension ; k++ ) // k para las columnas de la matriz resultante
            {  
             temporal = 0 ;
             for (j = 0 ; j < m -> dimension ; j++ ) //j para realizar la multiplicacion de 
@@ -137,8 +141,58 @@ void *multiplicar_matricesfila(void *args)
                  m -> matriz[i][k] = temporal;
                 }
             }
-      }
-    /*  
+
+
+  }
+}
+
+void *multiplicar_matricesfila2(void *args)
+{
+
+  pack_matrices  *m = (pack_matrices *)args;
+  int i,j,k,temporal,status,status1;
+  status=m->estado2;
+  status1=status+1;
+  //printf("este \n%d estado",status );
+  for (i = status ; i < status1 ; i++ ) //i para las filas de la matriz resultante
+       {
+        for (k = 0 ; k < m->dimension ; k++ ) // k para las columnas de la matriz resultante
+           {  
+            temporal = 0 ;
+            for (j = 0 ; j < m -> dimension ; j++ ) //j para realizar la multiplicacion de 
+                { 
+                 temporal += m -> matrizA[i][j] * m -> matrizB[j][k];               
+                 m -> matriz[i][k] = temporal;
+                }
+            }
+
+
+  }
+}
+void *multiplicar_matricesfila3(void *args)
+{
+
+  pack_matrices  *m = (pack_matrices *)args;
+  int i,j,k,temporal,status,status1;
+  status=m->estado3;
+  status1=status+1;
+  //printf("este \n%d estado",status );
+  for (i = status ; i < status1 ; i++ ) //i para las filas de la matriz resultante
+       {
+        for (k = 0 ; k < m->dimension ; k++ ) // k para las columnas de la matriz resultante
+           {  
+            temporal = 0 ;
+            for (j = 0 ; j < m -> dimension ; j++ ) //j para realizar la multiplicacion de 
+                { 
+                 temporal += m -> matrizA[i][j] * m -> matrizB[j][k];               
+                 m -> matriz[i][k] = temporal;
+                }
+            }
+
+
+  }
+
+     /*
     printf("%s", "MAtriz Resultado: \n");
     for(i=0;i < m -> dimension ;i++)
        {
@@ -147,7 +201,8 @@ void *multiplicar_matricesfila(void *args)
            {
           printf("[ %d ]", m -> matriz[i][j]);
          }
-    }*/
+    }
+    */
 }
 
 
@@ -158,8 +213,6 @@ int main(int argc, char *argv[])
 
     int i,j;
     srand (time(NULL));
-    char *c;
-    long op=strtol(argv[1],&c,10) ;
     //printf("Hola %lu",op);
     clock_t start_t, end_t;
     double duration;
@@ -210,9 +263,46 @@ int main(int argc, char *argv[])
   //pthread_create(&hilo5,NULL,imprimir,(void *)&packmB);
   //pthread_join(hilo5,NULL);
   start_t = clock();
+  int h;
+  //impar=(x%3)==0;
+  if (x<=2){
+  for (h=0;h<x;h++){
+    //printf("%d\nacah", h);
+    mul_matrices.estado=h;
+    pthread_create(&hilo3,NULL,multiplicar_matricesfila,(void *)&mul_matrices);
+    pthread_join(hilo3,NULL);
 
-  pthread_create(&hilo3,NULL,multiplicar_matrices,(void *)&mul_matrices);
-  pthread_join(hilo3,NULL);
+  }}
+  else if( x % 2 == 0){
+  for (h=0;h<x;){
+    //printf("%d\nacah", h);
+    //printf("entro a par" );
+    mul_matrices.estado=h;
+    pthread_create(&hilo3,NULL,multiplicar_matricesfila,(void *)&mul_matrices);
+    mul_matrices.estado2=h+1;
+    pthread_create(&hilo4,NULL,multiplicar_matricesfila2,(void *)&mul_matrices);
+    pthread_join(hilo3,NULL);    
+    pthread_join(hilo4,NULL);     
+    h=h+2;
+  }
+  }
+  else if(x % 3 == 0){
+  for (h=0;h<x;){
+    //printf("entro impar"); 
+    //printf("%d\nacah", h);
+    mul_matrices.estado=h;
+    pthread_create(&hilo3,NULL,multiplicar_matricesfila,(void *)&mul_matrices);
+    mul_matrices.estado2=h+1;
+    pthread_create(&hilo4,NULL,multiplicar_matricesfila2,(void *)&mul_matrices);
+    mul_matrices.estado3=h+2;
+    pthread_create(&hilo5,NULL,multiplicar_matricesfila3,(void *)&mul_matrices);
+    pthread_join(hilo3,NULL);    
+    pthread_join(hilo4,NULL);   
+    pthread_join(hilo5,NULL);     
+    h=h+3;
+  }
+  }
+
   end_t = clock();
   duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
   printf("%f\n",duration);

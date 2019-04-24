@@ -7,22 +7,22 @@ gcc matrices_parallel.c -o mulmapa -lpthread
  
 echo "" &> datosexcel.ods	
 
-./mulmapa &>> datosexcel.ods
+#./mulmapa 3 &>> datosexcel.ods
 #./maed 10 &>> datosexcel.ods
 
-#for VARIABLE in 1000 200
-#do
+for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400
+do
 	#echo $VARIABLE
-#	./mulma $VARIABLE &>> datosexcel.ods
-#done
+	./maed $VARIABLE &>> datosexcel.ods
+done
 
 
 
-#for VARIABLE in 10 100 1000	
-#do
+for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300	1400
+do
 	#echo $VARIABLE
-#	./mulmapa $VARIABLE &>> datosexcel.ods
-#done
+	./mulmapa $VARIABLE &>> datosexcel.ods
+done
 
 #(time ./mulma 1) &>> datosexcel.ods
 #(time ./mulma 10) &>> datosexcel.ods
