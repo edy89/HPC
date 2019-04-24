@@ -1,4 +1,4 @@
-//cd C:\Users\Edyson\GitHub\HPC\HPC-ejericiomatrices
+  //cd C:\Users\Edyson\GitHub\HPC\HPC-ejericiomatrices
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 {
     srand (time(NULL));
 
-    pid_t pid;
+    
     clock_t start_t, end_t;
 
     int k,i,j,y,temporal;
@@ -107,39 +107,43 @@ int main(int argc, char *argv[])
 
     parametro = atoi(argv[1]);
     x = parametro;
-    pid = fork();
+    
     printf("%d\n", x);
-
+    pid_t pid;
+    pid = fork();
     //reservar_matrices(mat,mat2,resultado,x);
     //llenar_matriz(mat,x);
     //llenar_matriz(mat2,x);
 
     start_t = clock();
+    
     if (pid == -1) 
       { 
         perror ("No se puede crear proceso");
         exit (-1);
       }
-    else 
-        if (pid > 0)
-        {
-         reservar_matrices(mat,mat2,resultado,x);
-         llenar_matriz(mat,x);
+      
+    
+    //else 
+    //    if (pid > 0)
+    //    {
+    //     reservar_matrices(mat,mat2,resultado,x);
+    //     llenar_matriz(mat,x);
          /*llenar_matriz(mat2,x);
          imprimir_matriz(mat,x);
          liberar_matrices(mat,mat2,resultado,x);*/
-        }
-         else
-              if (pid == 0)
-              {
-                imprimir_matriz(mat,x);
-                liberar_matrices(mat,mat2,resultado,x);
-              }
+    //    }
+    //     else
+    //          if (pid == 0)
+    //          {
+    //            imprimir_matriz(mat,x);
+    //            liberar_matrices(mat,mat2,resultado,x);
+    //          }
 
-    end_t = clock();
-    duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
-    printf("%f\n",duration);
- 
+    //end_t = clock();
+    //duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+    //printf("%f\n",duration);
+    
     return 0;
 }
 
