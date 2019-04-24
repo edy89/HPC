@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
   printf("hola" );  
 
-  
+  //Dificultades, resultados raros, opinion de los datos atipicos, analisis con conclusiones
 
   //int h;
   //for (h=0;h<x;h++){
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 
            //start_t = clock();
             
-
+          printf("%d estado", estado);    
           for (k = 0 ; k < x ; k++ ) // k para las columnas de la matriz resultante
              {  
               temporal = 0 ;
