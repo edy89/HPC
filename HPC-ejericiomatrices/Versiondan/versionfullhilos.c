@@ -12,13 +12,12 @@
 typedef struct 
 {
   int **matrizA,**matrizB,**matriz,dimension, estado;
-  char id;
+  //char id;
 }pack_matrices;
 
-typedef struct
-{
- int elementos,estado;
- int *vec;
+typedef struct{
+  int n_elem;
+  int *v1,*v2;
 }vector;
 
 /*
@@ -206,10 +205,37 @@ void *multiplicar_matricesfila3(void *args)
     
 }*/
 
+void *multiplicar_filas(void *args)
+{
+  vector *v = (vector *)args;  
+  int i,j;
+
+
+  printf("%d\n",v ->n_elem);
+
+  for(i=0;i < v -> n_elem ;i++)
+     {
+      for(j = 0;j < v -> n_elem ; j++)
+        {
+         //aux[i] = v[i].v1[j] * v[i].v2[j]; 
+         printf("[%d %d]\n",v[i].v1[j],v[i].v2[j]);           
+         //printf("[%d]\n",v[i].v1[j] * v[i].v2[j]);
+        }
+     }
+/*
+  for(j=0;j<v -> n_elem;j++)
+      {
+       printf("%d",aux[j]);
+      }
+      */
+  //free(aux);
+}
+
 void *llenar_matriz(void *args)
 {
   pack_matrices  *m = (pack_matrices *)args;
   int i,j,x;
+  srand (time(NULL));
 
     for(i=0;i < m -> dimension ;i++)
        {
@@ -230,19 +256,22 @@ void *llenar_matriz(void *args)
     for(i=0;i < m -> dimension ;i++)
        {
         printf("\n\t\t");
-        for(j = 0;j < m -> dimension ; j++)
+        for(j = 0;j < m -> dimension; j++)
            {
           printf("[ %d ]", m -> matrizA[i][j]);
          }
     }
+    printf("\n-------------------------------------------");
     for(i=0;i < m -> dimension ;i++)
        {
         printf("\n\t\t");
-        for(j = 0;j < m -> dimension ; j++)
+        for(j = 0;j < m -> dimension; j++)
            {
           printf("[ %d ]", m -> matrizB[i][j]);
          }
     }
+
+    printf("\n");
     
 }
 
@@ -253,14 +282,14 @@ int main(int argc, char *argv[])
 
 //DECLARACION DE VARIABLES
     int i,j;
-    srand (time(NULL));
+    //srand (time(NULL));
     //printf("Hola %lu",op);
     clock_t start_t, end_t;
     double duration;
 
 
     
-    int parametro,x;
+    int parametro,x,y = 0,z = 0;
     parametro=atoi(argv[1]);
     x=parametro;
 
@@ -268,42 +297,75 @@ int main(int argc, char *argv[])
     pthread_t hilo1,hilo2,hilo3,hilo4,hilo5,hilo6;
 
     pack_matrices mul_matrices;
-    vector v;
-    int *aux;
-    //v.vec = (int*)calloc(x,sizeof(int *));
+    mul_matrices.dimension = x;
+    vector *vec;
+        
     
-   
-
     //RESERVA DE MEMORIA PARA LAS MATRICES
+    vec = calloc(x,sizeof(vector));
     mul_matrices.matriz = (int **)calloc(x,sizeof(int *));
     mul_matrices.matrizA = (int **)calloc(x,sizeof(int *));
     mul_matrices.matrizB = (int **)calloc(x,sizeof(int *));
 
     for(i=0;i<x;i++)
        {
-        mul_matrices.matriz[i] = (int *)calloc(x,sizeof(int));
+        mul_matrices.matriz[i]  = (int *)calloc(x,sizeof(int));
         mul_matrices.matrizA[i] = (int *)calloc(x,sizeof(int));
         mul_matrices.matrizB[i] = (int *)calloc(x,sizeof(int));
+        vec[i].v1               = (int *)calloc(x,sizeof(int));
+        vec[i].v2               = (int *)calloc(x,sizeof(int));
+        //vec[i].v3               = (int *)calloc(x,sizeof(int));
+        vec[i].n_elem           = x;
        }
+
          
-  pthread_create(&hilo1,NULL,llenar_matriz,(void *)&mul_matrices);
-  pthread_join(hilo1,NULL);
+    pthread_create(&hilo1,NULL,llenar_matriz,(void *)&mul_matrices);
+    pthread_join(hilo1,NULL);
+    
+    for(i=0;i < vec -> n_elem ;i++)
+       {
+        for(j = 0;j < vec -> n_elem ; j++)
+          {
+            vec[i].v1[j] = mul_matrices.matrizA[i][j];
+            vec[i].v2[j] = mul_matrices.matrizB[i][j]; 
+            //printf("[%d %d]\n",vec[i].v1[j],vec[i].v2[j]);           
+          }
+        //pthread_create(&hilo2,NULL,multiplicar_filas,(void *)&vec[i]);
+        //pthread_join(hilo2,NULL);
+       }
+/*
+    for(i=0;i<vec -> n_elem;i++)
+      {
+       printf("[");
+       for(j=0;j<vec -> n_elem;j++)
+          {
+           printf("%d",vec[i].v2[j]);
+          }
+       printf("]\n");
+      }*/
 
-  aux = (int *)calloc(x,sizeof(int)); 
+    //pthread_create(&hilo2,NULL,imprimir_vector,(void *)&vec);
+    //pthread_join(hilo2,NULL);
+    //pthread_create(&hilo2,NULL,multiplicar_matrices,(void *)&mul_matrices);
+    //pthread_join(hilo2,NULL);
+    
+    for (i = 0;i < x;i++)
+     {
+      free(mul_matrices.matriz[i]);
+      free(mul_matrices.matrizA[i]);
+      free(mul_matrices.matrizB[i]);
+      free(vec[i].v1);
+      free(vec[i].v2);
+      //free(vec[i].v3);
+     }
+    
+    free(vec);
+    free(mul_matrices.matriz);
+    free(mul_matrices.matrizA);
+    free(mul_matrices.matrizB);
 
- for(i = 0;i<x;i++)
-   {
-    v.vec = (int*)calloc(i,sizeof(int *));
-    v.vec[i] = rand() % 11;
-    aux[i] =  rand() % 11;    
-   }
-  for(j=0;j<x;j++)
-   {
-    printf("%d",aux[i]);
-    //printf("%d",v.vec[i]);
-   }
-free(aux);
-free(v.vec);
+
+
 /*
   int h;
   //impar=(x%3)==0;
@@ -349,18 +411,5 @@ free(v.vec);
   duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
   printf("%f\n",duration);
 */
-  
-
-  for (i = 0;i < x;i++)
-   {
-    free(mul_matrices.matriz[i]);
-    free(mul_matrices.matrizA[i]);
-    free(mul_matrices.matrizB[i]);
-   }
- 
-  free(mul_matrices.matriz);
-  free(mul_matrices.matrizA);
-  free(mul_matrices.matrizB);
-
  return 0;
 }
