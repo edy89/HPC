@@ -16,8 +16,11 @@ typedef struct
 }pack_matrices;
 
 typedef struct{
-  int n_elem,fila_actual;
+  int n_elem,fila_actual,num;
   int *v1,*v2,**matriz;
+
+  pthread_mutex_t mutex;
+
 }vector;
 
 
@@ -64,66 +67,61 @@ void *llenar_matriz(void *args)
     printf("\n");
     
 }
-/*
-int m**;
-
-m = (int **)calloc(v -> n_elem,sizeof(int *));
-
-for(i=0;i<v -> n_elem;i++)
-   {
-     m[i] = (int *)calloc(v -> n_elem,sizeof(int));
-   }
-*/
 
 void *multiplicar_filas(void *args)
 {
   vector *v = (vector *)args;  
-  int i,j,aux;
-  /*
-  int **m;
+  int i,j,k,aux,aux2,estado,num,contador;
 
-  m = (int **)calloc(v -> n_elem,sizeof(int *));
+  aux=0;
+  aux2=0;
+  pthread_mutex_lock(&v->mutex);
 
-    for(i=0;i<v -> n_elem;i++)
-       {
-        m[i] = (int *)calloc(v -> n_elem,sizeof(int));
-       }*/
+  contador=v[0].num;
+  estado=v[contador].fila_actual+1;
 
-  //printf("--------------------------\n");  
+  
 
-  //for(i=0;i < v -> n_elem ;i++)
-     //{
-  	  aux = 0;
-      for(j = 0;j < v -> n_elem ; j++)
-        {
-         aux += v -> v1[j] * v -> v2[j];
-        }
+  //printf("%d\nfila", v[0].num);
 
-        printf("[%d]\n", aux);
-        /*if(v -> fila_actual / v -> n_elem == 0)
-         {
-           printf("\n\t\t");
-         }*/
-        
-/*
-      	printf("Matriz Resultado: \n");
-      	for(i = v -> n_elem;i < v -> n_elem;i++)
-		 {
-		   printf("\n\t\t");
-		   for(j = 0;j < v -> n_elem ; j++)
-		   {
-            m[i][j] = aux;
-           }
-         }*/
-      
-     //}
-/*
-  for(j=0;j<v -> n_elem;j++)
+  for(i= v[contador].fila_actual ; i < estado ; i++)
+  {  
+
+    for(k=0;k < v[contador].n_elem ; k++)
+    {  
+      for(j = 0;j < v[contador].n_elem ; j++)
       {
-       printf("%d",aux[j]);
+       //printf("%d esta es i \n ",i );
+       //printf("%d esta es j \n ",j );
+       //printf("DATO %d \n",v[i].v1[j]);
+       //printf("DATO %d \n",v[k].v2[j]); 
+       aux += v[i].v1[j] * v[k].v2[j];
+       /*
+       for(k=0;k < v -> n_elem;k++)
+       {
+         v->matriz[i][i]=aux;
+         printf("DATOo %d \n",v->v1[j]);
+         printf("DATOo %d \n",v[estado].v2[j]); 
+         aux2 += v->v1[j] * v[estado].v2[j];
+         v->matriz[i][i]=aux;
+      }*/
+
+       //printf("este es %d", v[i].v1[j]);
+       //printf("%d\n",aux );
       }
-      */
-  //free(aux);
+      v[0].matriz[i][k]=aux;
+      //printf("[%d]\n", aux);
+      aux = 0;
+
+    }
+    v[0].num=v[0].num+1;
+  }
+
+
+  pthread_mutex_unlock(&v->mutex);
+  //printf("ADIOS");
+
+      
 }
 
 /*------------------------------------MAIN----------------------------------------------------------*/
@@ -131,8 +129,9 @@ void *multiplicar_filas(void *args)
 int main(int argc, char *argv[])
 {
 
-//DECLARACION DE VARIABLES
+    //DECLARACION DE VARIABLES
     int i,j,k;
+
     //srand (time(NULL));
     //printf("Hola %lu",op);
     clock_t start_t, end_t;
@@ -140,7 +139,7 @@ int main(int argc, char *argv[])
 
 
     
-    int parametro,x,y = 0,z = 0;
+    int parametro,x,u,y = 0,z = 0;
     parametro=atoi(argv[1]);
     x=parametro;
 
@@ -152,57 +151,102 @@ int main(int argc, char *argv[])
     vector *vec;
         
     
-    //RESERVA DE MEMORIA PARA LAS MATRICES
-    vec = calloc(x,sizeof(vector));
-    //vec -> matriz 			 = (int **)calloc(x,sizeof(int *));
+    //RESERVA DE MEMORIA
+
+
     mul_matrices.matrizA = (int **)calloc(x,sizeof(int *));
     mul_matrices.matrizB = (int **)calloc(x,sizeof(int *));
 
+    vec = calloc(x,sizeof(vector));
+
     for(i=0;i<x;i++)
        {
-        vec[i].matriz  		    = (int **)calloc(x,sizeof(int *));
-        vec[i].matriz[i]		= (int *)calloc(x,sizeof(int));
+
         mul_matrices.matrizA[i] = (int *)calloc(x,sizeof(int));
         mul_matrices.matrizB[i] = (int *)calloc(x,sizeof(int));
+
+          
         vec[i].v1               = (int *)calloc(x,sizeof(int));
         vec[i].v2               = (int *)calloc(x,sizeof(int));
         vec[i].n_elem           = x;
+
        }
          
+    vec[0].matriz =(int **)calloc(x,sizeof(int *));
+
+    for(i=0;i<x;i++)
+       {
+
+        vec[0].matriz[i]           = (int *)calloc(x,sizeof(int ));
+       }
+
+
     pthread_create(&hilo1,NULL,llenar_matriz,(void *)&mul_matrices);
     pthread_join(hilo1,NULL);
+    //printf("HOLA");
     
+
+    vec[0].num = 0;    
     for(i=0;i < vec -> n_elem ;i++)
        {
         for(j = 0;j < vec -> n_elem ; j++)
           {
-          	for(k=0;k< vec -> n_elem;k++)
-          	{
-             vec[i].v1[k] = mul_matrices.matrizA[i][k];
-             vec[i].v2[k] = mul_matrices.matrizB[k][j];
-             vec[i].fila_actual = j;
-            }
-            pthread_create(&hilo2,NULL,multiplicar_filas,(void *)&vec[i]);
-            pthread_join(hilo2,NULL);
-            //mul_matrices.matriz[i][j] = aux;
+             vec[i].v1[j] = mul_matrices.matrizA[i][j];
+             vec[i].v2[j] = mul_matrices.matrizB[j][i];
+             vec[i].fila_actual = i;
+             
           }
-        //vec[i].fila_actual = i;
        }
+
+    pthread_mutex_init(&vec->mutex, NULL);
     
+    int h;   
+    for(h=0;h<x;h++)
+    { 
+
+       pthread_create(&hilo2,NULL,multiplicar_filas,(void *)vec);
+       //printf("%d\n",vec[h].fila_actual );   
+    }
+    //printf("hilo main");
+
+
+
+
+    //  printf("%d\n aca", v->matriz[0][2]);       
+    pthread_join(hilo2,NULL);
+    //printf("%d\n aca", vec->matriz[0][0]);
+    //printf("%d\n aca", vec->matriz[0][1]);
+    //printf("%d\n aca", vec->matriz[0][2]);
+    //printf("%d\n aca", vec->matriz[1][0]);
+    //printf("%d\n aca", vec->matriz[1][1]);
+    printf("\n-------------------------------------------");
+    for(u=0;u < x ;u++)
+       {
+        printf("\n\t\t");
+        for(j = 0;j < x; j++)
+           {
+          printf("[ %d ]",vec[0].matriz[u][j]);
+         }
+    }
+
+    printf("\n");
+
+
     for (i = 0;i < x;i++)
      {
       free(mul_matrices.matrizA[i]);
       free(mul_matrices.matrizB[i]);
-      //free(vec[i].matriz);
+      free(vec[i].matriz);
       //free(vec[i].matriz[i]);
       free(vec[i].v1);
       free(vec[i].v2);
      }
     
-    free(vec);
-    //free(vec -> matriz);
+    
+    //free(vec.matriz);
     free(mul_matrices.matrizA);
     free(mul_matrices.matrizB);
+    free(vec);  
 
  return 0;
 }

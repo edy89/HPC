@@ -54,6 +54,7 @@ void llenar_matriz2(int **x,int c)
         for(j=0;j<c;j++)
            {
             x[i][j] = rand() % 11;     
+            printf("%s\n", );
            }
         }
 
