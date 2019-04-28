@@ -45,7 +45,7 @@ void *llenar_matriz(void *args)
           m -> matrizB[i][j] = rand() % 11;
          }
     }
-    
+    /*
     for(i=0;i < m -> dimension ;i++)
        {
         printf("\n\t\t");
@@ -63,8 +63,8 @@ void *llenar_matriz(void *args)
           printf("[ %d ]", m -> matrizB[i][j]);
          }
     }
-
-    printf("\n");
+  */
+    //printf("\n");
     
 }
 
@@ -75,7 +75,7 @@ void *multiplicar_filas(void *args)
 
   aux=0;
   aux2=0;
-  pthread_mutex_lock(&v->mutex);
+  //pthread_mutex_lock(&v->mutex);
 
   contador=v[0].num;
   estado=v[contador].fila_actual+1;
@@ -118,7 +118,7 @@ void *multiplicar_filas(void *args)
   }
 
 
-  pthread_mutex_unlock(&v->mutex);
+  //pthread_mutex_unlock(&v->mutex);
   //printf("ADIOS");
 
       
@@ -201,6 +201,7 @@ int main(int argc, char *argv[])
     pthread_mutex_init(&vec->mutex, NULL);
     
     int h;   
+    start_t = clock();
     for(h=0;h<x;h++)
     { 
 
@@ -214,11 +215,11 @@ int main(int argc, char *argv[])
 
     //  printf("%d\n aca", v->matriz[0][2]);       
     pthread_join(hilo2,NULL);
-    //printf("%d\n aca", vec->matriz[0][0]);
-    //printf("%d\n aca", vec->matriz[0][1]);
-    //printf("%d\n aca", vec->matriz[0][2]);
-    //printf("%d\n aca", vec->matriz[1][0]);
-    //printf("%d\n aca", vec->matriz[1][1]);
+    end_t = clock();
+    duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+    printf("%f\n",duration);
+
+    /*
     printf("\n-------------------------------------------");
     for(u=0;u < x ;u++)
        {
@@ -228,9 +229,10 @@ int main(int argc, char *argv[])
           printf("[ %d ]",vec[0].matriz[u][j]);
          }
     }
+    
 
     printf("\n");
-
+    */
 
     for (i = 0;i < x;i++)
      {
@@ -247,6 +249,7 @@ int main(int argc, char *argv[])
     free(mul_matrices.matrizA);
     free(mul_matrices.matrizB);
     free(vec);  
+    pthread_exit(NULL);
 
  return 0;
 }

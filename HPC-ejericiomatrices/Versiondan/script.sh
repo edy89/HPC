@@ -1,10 +1,11 @@
 #!/bin/bash
 # A sample Bash script, by Ryan
 cd /home/kalugy/Escritorio/HPC/HPC-ejericiomatrices/Versiondan
-gcc matricesed.c -o maed
-gcc matrices_parallel.c -o mulmapa -lpthread
+gcc matricesed.c -o maed 
+gcc version_full_hilos_1.c -o mahilos -lpthread
+
 #(time -o datos.txt ./mulma 2) 
- 
+
 echo "" &> datosexcel.ods	
 
 #./mulmapa 3 &>> datosexcel.ods
@@ -21,7 +22,7 @@ done
 for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300	1400
 do
 	#echo $VARIABLE
-	./mulmapa $VARIABLE &>> datosexcel.ods
+	./mahilos $VARIABLE &>> datosexcel.ods
 done
 
 #(time ./mulma 1) &>> datosexcel.ods
