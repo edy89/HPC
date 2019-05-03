@@ -15,13 +15,14 @@ for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 150
 do
 	#echo $VARIABLE
 	./mahilos $VARIABLE &>> datosexcel.ods
-done
-
-for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 
-do
-	#echo $VARIABLE
 	./maed $VARIABLE &>> datosexcel.ods
 done
+
+#for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 
+#do
+	#echo $VARIABLE
+#	./maed $VARIABLE &>> datosexcel.ods
+#done
 
 #(time ./mulma 1) &>> datosexcel.ods
 #(time ./mulma 10) &>> datosexcel.ods
