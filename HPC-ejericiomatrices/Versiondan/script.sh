@@ -1,8 +1,8 @@
 #!/bin/bash
 # A sample Bash script, by Ryan
-cd /home/kalugy/Escritorio/HPC/HPC-ejericiomatrices/Versiondan
-gcc matricesed.c -o maed 
+cd /home/demai/Escritorio/HPC/HPC/HPC-ejericiomatrices/Versiondan
 gcc version_full_hilos_1.c -o mahilos -lpthread
+gcc matricesed.c -o maed 
 
 #(time -o datos.txt ./mulma 2) 
 
@@ -11,18 +11,16 @@ echo "" &> datosexcel.ods
 #./mulmapa 3 &>> datosexcel.ods
 #./maed 10 &>> datosexcel.ods
 
-for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400
-do
-	#echo $VARIABLE
-	./maed $VARIABLE &>> datosexcel.ods
-done
-
-
-
-for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300	1400
+for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 
 do
 	#echo $VARIABLE
 	./mahilos $VARIABLE &>> datosexcel.ods
+done
+
+for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 
+do
+	#echo $VARIABLE
+	./maed $VARIABLE &>> datosexcel.ods
 done
 
 #(time ./mulma 1) &>> datosexcel.ods

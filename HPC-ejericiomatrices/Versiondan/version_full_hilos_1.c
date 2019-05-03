@@ -71,18 +71,18 @@ void *llenar_matriz(void *args)
 void *multiplicar_filas(void *args)
 {
   vector *v = (vector *)args;  
-  int i,j,k,aux,aux2,estado,num,contador;
+  int i,j,k,aux,estado,num,contador;
 
   aux=0;
-  aux2=0;
-  //pthread_mutex_lock(&v->mutex);
+  //aux2=0;
+  pthread_mutex_lock(&v->mutex);
 
   contador=v[0].num;
   estado=v[contador].fila_actual+1;
 
   
 
-  //printf("%d\nfila", v[0].num);
+  //printf("%d\n",contador);
 
   for(i= v[contador].fila_actual ; i < estado ; i++)
   {  
@@ -118,7 +118,7 @@ void *multiplicar_filas(void *args)
   }
 
 
-  //pthread_mutex_unlock(&v->mutex);
+  pthread_mutex_unlock(&v->mutex);
   //printf("ADIOS");
 
       
@@ -208,7 +208,7 @@ int main(int argc, char *argv[])
        pthread_create(&hilo2,NULL,multiplicar_filas,(void *)vec);
        //printf("%d\n",vec[h].fila_actual );   
     }
-    //printf("hilo main");
+
 
 
 
