@@ -218,7 +218,7 @@ int main(int argc, char *argv[]) {
 
 
 
-  printf("hola\n");
+  //printf("hola\n");
   for(h=0;h<x;h++)
   {
     //printf("alooooooooo\n");
@@ -278,12 +278,12 @@ int main(int argc, char *argv[]) {
         end_t = clock();
 
         duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
-        printf("%f\n",duration );
+        //printf("%f\n",duration );
         durationmax=durationmax+duration;
         // only the parent waits 
   }
   //printf("bye\n");
-  printf("alo\n");
+  //printf("alo\n");
   
 
   printf("%f\n",durationmax);

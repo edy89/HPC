@@ -8,7 +8,6 @@
 
 
 
-
 typedef struct 
 {
   int **matrizA,**matrizB,dimension;
@@ -80,8 +79,6 @@ void *multiplicar_filas(void *args)
   contador=v[0].num;
   estado=v[contador].fila_actual+1;
 
-  
-
   //printf("%d\nfila", v[0].num);
 
   for(i= v[contador].fila_actual ; i < estado ; i++)
@@ -91,32 +88,16 @@ void *multiplicar_filas(void *args)
     {  
       for(j = 0;j < v[contador].n_elem ; j++)
       {
-       //printf("%d esta es i \n ",i );
-       //printf("%d esta es j \n ",j );
-       //printf("DATO %d \n",v[i].v1[j]);
-       //printf("DATO %d \n",v[k].v2[j]); 
-       aux += v[i].v1[j] * v[k].v2[j];
-       /*
-       for(k=0;k < v -> n_elem;k++)
-       {
-         v->matriz[i][i]=aux;
-         printf("DATOo %d \n",v->v1[j]);
-         printf("DATOo %d \n",v[estado].v2[j]); 
-         aux2 += v->v1[j] * v[estado].v2[j];
-         v->matriz[i][i]=aux;
-      }*/
 
-       //printf("este es %d", v[i].v1[j]);
-       //printf("%d\n",aux );
+       aux += v[i].v1[j] * v[k].v2[j];
+
       }
       v[0].matriz[i][k]=aux;
-      //printf("[%d]\n", aux);
       aux = 0;
 
     }
     v[0].num=v[0].num+1;
   }
-
 
   //pthread_mutex_unlock(&v->mutex);
   //printf("ADIOS");
@@ -131,14 +112,8 @@ int main(int argc, char *argv[])
 
     //DECLARACION DE VARIABLES
     int i,j,k;
-
-    //srand (time(NULL));
-    //printf("Hola %lu",op);
     clock_t start_t, end_t;
     double duration;
-
-
-    
     int parametro,x,u,y = 0,z = 0;
     parametro=atoi(argv[1]);
     x=parametro;
@@ -152,10 +127,11 @@ int main(int argc, char *argv[])
         
     
     //RESERVA DE MEMORIA
-
-
     mul_matrices.matrizA = (int **)calloc(x,sizeof(int *));
     mul_matrices.matrizB = (int **)calloc(x,sizeof(int *));
+
+    
+    
 
     vec = calloc(x,sizeof(vector));
 
@@ -164,19 +140,14 @@ int main(int argc, char *argv[])
 
         mul_matrices.matrizA[i] = (int *)calloc(x,sizeof(int));
         mul_matrices.matrizB[i] = (int *)calloc(x,sizeof(int));
-
-          
         vec[i].v1               = (int *)calloc(x,sizeof(int));
         vec[i].v2               = (int *)calloc(x,sizeof(int));
         vec[i].n_elem           = x;
-
        }
          
     vec[0].matriz =(int **)calloc(x,sizeof(int *));
-
     for(i=0;i<x;i++)
        {
-
         vec[0].matriz[i]           = (int *)calloc(x,sizeof(int ));
        }
 
@@ -194,19 +165,15 @@ int main(int argc, char *argv[])
              vec[i].v1[j] = mul_matrices.matrizA[i][j];
              vec[i].v2[j] = mul_matrices.matrizB[j][i];
              vec[i].fila_actual = i;
-             
           }
        }
-
     pthread_mutex_init(&vec->mutex, NULL);
-    
     int h;   
     start_t = clock();
     for(h=0;h<x;h++)
     { 
-
        pthread_create(&hilo2,NULL,multiplicar_filas,(void *)vec);
-       //printf("%d\n",vec[h].fila_actual );   
+       printf("%d\n",vec[h].fila_actual );   
     }
     //printf("hilo main");
 

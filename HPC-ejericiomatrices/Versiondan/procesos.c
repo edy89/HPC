@@ -8,6 +8,9 @@
 //#include <string.h>
 //https://computing.llnl.gov/tutorials/parallel_comp/
 //https://www.um.es/earlyadopters/actividades/a3/PCD_Activity3_Session1.pdf
+
+
+/*
 int main(int argc, char *argv[])
 {
   //Declaracion de variables 
@@ -162,7 +165,7 @@ int main(int argc, char *argv[])
   printf("\n");
 
 */
-
+/*
 //Liberamos espacop
 for (i = 0;i < x;i++)
  {
@@ -183,3 +186,196 @@ return 0;
 }
 
 
+
+*/
+
+
+
+
+
+
+
+
+//_----------------------------------------------------------------
+
+int main(int argc, char *argv[])
+{
+
+    //DECLARACION DE VARIABLES
+    int i,j,k;
+    int n= 10;
+    //int i=0;
+    int status=0;
+
+    //int x = 5;
+    //srand (time(NULL));
+    //printf("Hola %lu",op);
+    clock_t start_t, end_t;
+    double duration;
+
+
+    
+    int parametro,x,u,y = 0,z = 0;
+    parametro=atoi(argv[1]);
+    x=parametro;
+
+   
+    pthread_t hilo1,hilo2,hilo3,hilo4,hilo5,hilo6;
+
+    pack_matrices mul_matrices;
+    mul_matrices.dimension = x;
+    vector *vec;
+        
+    
+    //RESERVA DE MEMORIA
+
+
+    mul_matrices.matrizA = (int **)calloc(x,sizeof(int *));
+    mul_matrices.matrizB = (int **)calloc(x,sizeof(int *));
+
+    vec = calloc(x,sizeof(vector));
+
+    for(i=0;i<x;i++)
+       {
+
+        mul_matrices.matrizA[i] = (int *)calloc(x,sizeof(int));
+        mul_matrices.matrizB[i] = (int *)calloc(x,sizeof(int));
+
+          
+        vec[i].v1               = (int *)calloc(x,sizeof(int));
+        vec[i].v2               = (int *)calloc(x,sizeof(int));
+        vec[i].n_elem           = x;
+
+       }
+         
+    vec[0].matriz =(int **)calloc(x,sizeof(int *));
+
+    for(i=0;i<x;i++)
+       {
+
+        vec[0].matriz[i]           = (int *)calloc(x,sizeof(int ));
+       }
+
+
+    pthread_create(&hilo1,NULL,llenar_matriz,(void *)&mul_matrices);
+    pthread_join(hilo1,NULL);
+    //printf("HOLA");
+    
+
+    vec[0].num = 0;    
+    for(i=0;i < vec -> n_elem ;i++)
+       {
+        for(j = 0;j < vec -> n_elem ; j++)
+          {
+             vec[i].v1[j] = mul_matrices.matrizA[i][j];
+             vec[i].v2[j] = mul_matrices.matrizB[j][i];
+             vec[i].fila_actual = i;
+             
+          }
+       }
+
+    //pthread_mutex_init(&vec->mutex, NULL);
+    //wait(2);
+    int h;   
+    //delay(10);
+    //start_t = clock();
+    /*
+    for(h=0;h<x;h++)
+    { 
+
+       pthread_create(&hilo2,NULL,multiplicar_filas,(void *)vec);
+       //printf("%d\n",vec[h].fila_actual );   
+    }
+    //printf("hilo main");
+
+
+
+
+    //  printf("%d\n aca", v->matriz[0][2]);       
+    pthread_join(hilo2,NULL);
+  */
+
+  //printf("Creating %d children\n", n);
+  //foo("parent");
+  int aux=0;
+    int estado;
+    int datomenor1;
+    //for (h=0;h<1000000;h++);
+    
+    printf("hola\n");
+  for(h=0;h<x;h++)
+  {
+    printf("alooooooooo\n");
+        pid_t pid=fork();
+        //printf("\naca%d\n",i );
+        if (pid==0) 
+        // only execute this if child 
+        {
+          //printf("%d %d %desta es i,h,x = \n",i,h,x );
+          
+
+
+        }
+        else{
+          printf("soy padre:)\n" );
+          multiplicar_filas(h,vec);
+          datomenor1=x-1;
+          if (h==datomenor1){
+            printf("\n-------------------------------------------");
+        for(u=0;u < x ;u++)
+           {
+            printf("\n\t\t");
+            for(j = 0;j < x; j++)
+               {
+              printf("[ %d ]",vec[0].matriz[u][j]);
+             }
+        }
+        }
+
+            exit(0);
+        }
+        wait(&status);  
+
+
+        // only the parent waits 
+  }
+
+  
+  //x = 100 * x;
+  //printf("x value in main: %d ", x);
+
+
+  //return 0;
+
+
+
+    //end_t = clock();
+    //duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+    //printf("%f\n",duration);
+
+    
+
+    
+
+    printf("\n");
+    
+
+    for (i = 0;i < x;i++)
+     {
+      free(mul_matrices.matrizA[i]);
+      free(mul_matrices.matrizB[i]);
+      free(vec[i].matriz);
+      //free(vec[i].matriz[i]);
+      free(vec[i].v1);
+      free(vec[i].v2);
+     }
+    
+    
+    //free(vec.matriz);
+    free(mul_matrices.matrizA);
+    free(mul_matrices.matrizB);
+    free(vec);  
+    //pthread_exit(NULL);
+
+ return 0;
+}
