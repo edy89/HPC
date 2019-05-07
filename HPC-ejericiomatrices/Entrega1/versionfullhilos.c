@@ -11,225 +11,18 @@
 
 typedef struct 
 {
-  int **matrizA,**matrizB,**matriz,dimension, estado;
+  int **matrizA,**matrizB,dimension;
   //char id;
 }pack_matrices;
 
 typedef struct{
-  int n_elem;
-  int *v1,*v2;
+  int n_elem,fila_actual,num;
+  int *v1,*v2,**matriz;
+
+  pthread_mutex_t mutex;
+
 }vector;
 
-/*
-void *imprimir(void *args)
-{
-  pack  *m = (pack *)args;
-  int i,j;
-  printf("\nMatriz %c: ", m -> id);
-    for(i=0;i < m -> dimension ;i++)
-       {
-        printf("\n\t\t");
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          printf("[ %d ]", m -> matriz[i][j]);
-         }
-    }
-  printf("\n");
-}
-
-void *llenar_matriz(void *args)
-{
-  pack  *m = (pack *)args;
-  int i,j,x;
-    for(i=0;i < m -> dimension ;i++)
-       {
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          m -> matriz[i][j] = rand() % 11;
-         }
-    }
-}
-
-
-void *llenar_matriz(void *args)
-{
-  pack_matrices  *m = (pack_matrices *)args;
-  int i,j,x;
-
-    for(i=0;i < m -> dimension ;i++)
-       {
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          m -> matrizA[i][j] = rand() % 11;
-         }
-    }
-
-  for(i=0;i < m -> dimension ;i++)
-       {
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          m -> matrizB[i][j] = rand() % 11;
-         }
-    }
-    
-    for(i=0;i < m -> dimension ;i++)
-       {
-        printf("\n\t\t");
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          printf("[ %d ]", m -> matrizA[i][j]);
-         }
-    }
-    for(i=0;i < m -> dimension ;i++)
-       {
-        printf("\n\t\t");
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          printf("[ %d ]", m -> matrizB[i][j]);
-         }
-    }
-    
-
-
-}
-
-
-void *multiplicar_matrices(void *args)
-{
-  pack_matrices  *m = (pack_matrices *)args;
-  int i,j,k,temporal;
-
-    for (i = 0 ; i < m -> dimension ; i++ ) //i para las filas de la matriz resultante
-       {
-        for (k = 0 ; k < m -> dimension ; k++ ) // k para las columnas de la matriz resultante
-           {  
-            temporal = 0 ;
-            for (j = 0 ; j < m -> dimension ; j++ ) //j para realizar la multiplicacion de 
-                { 
-                 temporal += m -> matrizA[i][j] * m -> matrizB[j][k];               
-                 m -> matriz[i][k] = temporal;
-                }
-            }
-      }
-      
-    printf("%s", "MAtriz Resultado: \n");
-    for(i=0;i < m -> dimension ;i++)
-       {
-        printf("\n\t\t");
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          printf("[ %d ]", m -> matriz[i][j]);
-         }
-    }
-}
-void *multiplicar_matricesfila(void *args)
-{
-
-  pack_matrices  *m = (pack_matrices *)args;
-  int i,j,k,temporal,status,status1;
-  status=m->estado;
-  status1=status+1;
-  //printf("este \n%d estado",status );
-  for (i = status ; i < status1 ; i++ ) //i para las filas de la matriz resultante
-       {
-        for (k = 0 ; k < m->dimension ; k++ ) // k para las columnas de la matriz resultante
-           {  
-            temporal = 0 ;
-            for (j = 0 ; j < m -> dimension ; j++ ) //j para realizar la multiplicacion de 
-                { 
-                 temporal += m -> matrizA[i][j] * m -> matrizB[j][k];               
-                 m -> matriz[i][k] = temporal;
-                }
-            }
-
-
-  }
-}
-
-void *multiplicar_matricesfila2(void *args)
-{
-
-  pack_matrices  *m = (pack_matrices *)args;
-  int i,j,k,temporal,status,status1;
-  status=m->estado2;
-  status1=status+1;
-  //printf("este \n%d estado",status );
-  for (i = status ; i < status1 ; i++ ) //i para las filas de la matriz resultante
-       {
-        for (k = 0 ; k < m->dimension ; k++ ) // k para las columnas de la matriz resultante
-           {  
-            temporal = 0 ;
-            for (j = 0 ; j < m -> dimension ; j++ ) //j para realizar la multiplicacion de 
-                { 
-                 temporal += m -> matrizA[i][j] * m -> matrizB[j][k];               
-                 m -> matriz[i][k] = temporal;
-                }
-            }
-
-
-  }
-}
-void *multiplicar_matricesfila3(void *args)
-{
-
-  pack_matrices  *m = (pack_matrices *)args;
-  int i,j,k,temporal,status,status1;
-  status=m->estado3;
-  status1=status+1;
-  //printf("este \n%d estado",status );
-  for (i = status ; i < status1 ; i++ ) //i para las filas de la matriz resultante
-       {
-        for (k = 0 ; k < m->dimension ; k++ ) // k para las columnas de la matriz resultante
-           {  
-            temporal = 0 ;
-            for (j = 0 ; j < m -> dimension ; j++ ) //j para realizar la multiplicacion de 
-                { 
-                 temporal += m -> matrizA[i][j] * m -> matrizB[j][k];               
-                 m -> matriz[i][k] = temporal;
-                }
-            }
-
-
-  }
-
-     
-    printf("%s", "MAtriz Resultado: \n");
-    for(i=0;i < m -> dimension ;i++)
-       {
-        printf("\n\t\t");
-        for(j = 0;j < m -> dimension ; j++)
-           {
-          printf("[ %d ]", m -> matriz[i][j]);
-         }
-    }
-    
-}*/
-
-void *multiplicar_filas(void *args)
-{
-  vector *v = (vector *)args;  
-  int i,j;
-
-
-  printf("%d\n",v ->n_elem);
-
-  for(i=0;i < v -> n_elem ;i++)
-     {
-      for(j = 0;j < v -> n_elem ; j++)
-        {
-         //aux[i] = v[i].v1[j] * v[i].v2[j]; 
-         printf("[%d %d]\n",v[i].v1[j],v[i].v2[j]);           
-         //printf("[%d]\n",v[i].v1[j] * v[i].v2[j]);
-        }
-     }
-/*
-  for(j=0;j<v -> n_elem;j++)
-      {
-       printf("%d",aux[j]);
-      }
-      */
-  //free(aux);
-}
 
 void *llenar_matriz(void *args)
 {
@@ -252,7 +45,7 @@ void *llenar_matriz(void *args)
           m -> matrizB[i][j] = rand() % 11;
          }
     }
-    
+    /*
     for(i=0;i < m -> dimension ;i++)
        {
         printf("\n\t\t");
@@ -270,9 +63,65 @@ void *llenar_matriz(void *args)
           printf("[ %d ]", m -> matrizB[i][j]);
          }
     }
-
-    printf("\n");
+  */
+    //printf("\n");
     
+}
+
+void *multiplicar_filas(void *args)
+{
+  vector *v = (vector *)args;  
+  int i,j,k,aux,estado,num,contador;
+
+  aux=0;
+  //aux2=0;
+  pthread_mutex_lock(&v->mutex);
+
+  contador=v[0].num;
+  estado=v[contador].fila_actual+1;
+
+  
+
+  //printf("%d\n",contador);
+
+  for(i= v[contador].fila_actual ; i < estado ; i++)
+  {  
+
+    for(k=0;k < v[contador].n_elem ; k++)
+    {  
+      for(j = 0;j < v[contador].n_elem ; j++)
+      {
+       //printf("%d esta es i \n ",i );
+       //printf("%d esta es j \n ",j );
+       //printf("DATO %d \n",v[i].v1[j]);
+       //printf("DATO %d \n",v[k].v2[j]); 
+       aux += v[i].v1[j] * v[k].v2[j];
+       /*
+       for(k=0;k < v -> n_elem;k++)
+       {
+         v->matriz[i][i]=aux;
+         printf("DATOo %d \n",v->v1[j]);
+         printf("DATOo %d \n",v[estado].v2[j]); 
+         aux2 += v->v1[j] * v[estado].v2[j];
+         v->matriz[i][i]=aux;
+      }*/
+
+       //printf("este es %d", v[i].v1[j]);
+       //printf("%d\n",aux );
+      }
+      v[0].matriz[i][k]=aux;
+      //printf("[%d]\n", aux);
+      aux = 0;
+
+    }
+    v[0].num=v[0].num+1;
+  }
+
+
+  pthread_mutex_unlock(&v->mutex);
+  //printf("ADIOS");
+
+      
 }
 
 /*------------------------------------MAIN----------------------------------------------------------*/
@@ -280,8 +129,9 @@ void *llenar_matriz(void *args)
 int main(int argc, char *argv[])
 {
 
-//DECLARACION DE VARIABLES
-    int i,j;
+    //DECLARACION DE VARIABLES
+    int i,j,k;
+
     //srand (time(NULL));
     //printf("Hola %lu",op);
     clock_t start_t, end_t;
@@ -289,7 +139,7 @@ int main(int argc, char *argv[])
 
 
     
-    int parametro,x,y = 0,z = 0;
+    int parametro,x,u,y = 0,z = 0;
     parametro=atoi(argv[1]);
     x=parametro;
 
@@ -301,115 +151,104 @@ int main(int argc, char *argv[])
     vector *vec;
         
     
-    //RESERVA DE MEMORIA PARA LAS MATRICES
-    vec = calloc(x,sizeof(vector));
-    mul_matrices.matriz = (int **)calloc(x,sizeof(int *));
+    //RESERVA DE MEMORIA
+
+
     mul_matrices.matrizA = (int **)calloc(x,sizeof(int *));
     mul_matrices.matrizB = (int **)calloc(x,sizeof(int *));
 
+    vec = calloc(x,sizeof(vector));
+
     for(i=0;i<x;i++)
        {
-        mul_matrices.matriz[i]  = (int *)calloc(x,sizeof(int));
+
         mul_matrices.matrizA[i] = (int *)calloc(x,sizeof(int));
         mul_matrices.matrizB[i] = (int *)calloc(x,sizeof(int));
+
+          
         vec[i].v1               = (int *)calloc(x,sizeof(int));
         vec[i].v2               = (int *)calloc(x,sizeof(int));
-        //vec[i].v3               = (int *)calloc(x,sizeof(int));
         vec[i].n_elem           = x;
+
+       }
+         
+    vec[0].matriz =(int **)calloc(x,sizeof(int *));
+
+    for(i=0;i<x;i++)
+       {
+
+        vec[0].matriz[i]           = (int *)calloc(x,sizeof(int ));
        }
 
-         
+
     pthread_create(&hilo1,NULL,llenar_matriz,(void *)&mul_matrices);
     pthread_join(hilo1,NULL);
+    //printf("HOLA");
     
+
+    vec[0].num = 0;    
     for(i=0;i < vec -> n_elem ;i++)
        {
         for(j = 0;j < vec -> n_elem ; j++)
           {
-            vec[i].v1[j] = mul_matrices.matrizA[i][j];
-            vec[i].v2[j] = mul_matrices.matrizB[i][j]; 
-            //printf("[%d %d]\n",vec[i].v1[j],vec[i].v2[j]);           
+             vec[i].v1[j] = mul_matrices.matrizA[i][j];
+             vec[i].v2[j] = mul_matrices.matrizB[j][i];
+             vec[i].fila_actual = i;
+             
           }
-        //pthread_create(&hilo2,NULL,multiplicar_filas,(void *)&vec[i]);
-        //pthread_join(hilo2,NULL);
        }
-/*
-    for(i=0;i<vec -> n_elem;i++)
-      {
-       printf("[");
-       for(j=0;j<vec -> n_elem;j++)
-          {
-           printf("%d",vec[i].v2[j]);
-          }
-       printf("]\n");
-      }*/
 
-    //pthread_create(&hilo2,NULL,imprimir_vector,(void *)&vec);
-    //pthread_join(hilo2,NULL);
-    //pthread_create(&hilo2,NULL,multiplicar_matrices,(void *)&mul_matrices);
-    //pthread_join(hilo2,NULL);
+    pthread_mutex_init(&vec->mutex, NULL);
     
+    int h;   
+    start_t = clock();
+    for(h=0;h<x;h++)
+    { 
+
+       pthread_create(&hilo2,NULL,multiplicar_filas,(void *)vec);
+       //printf("%d\n",vec[h].fila_actual );   
+    }
+
+
+
+
+
+    //  printf("%d\n aca", v->matriz[0][2]);       
+    pthread_join(hilo2,NULL);
+    end_t = clock();
+    duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+    printf("%f\n",duration);
+
+    /*
+    printf("\n-------------------------------------------");
+    for(u=0;u < x ;u++)
+       {
+        printf("\n\t\t");
+        for(j = 0;j < x; j++)
+           {
+          printf("[ %d ]",vec[0].matriz[u][j]);
+         }
+    }
+    
+    printf("\n");
+    */
+
     for (i = 0;i < x;i++)
      {
-      free(mul_matrices.matriz[i]);
       free(mul_matrices.matrizA[i]);
       free(mul_matrices.matrizB[i]);
+      free(vec[i].matriz);
+      //free(vec[i].matriz[i]);
       free(vec[i].v1);
       free(vec[i].v2);
-      //free(vec[i].v3);
      }
     
-    free(vec);
-    free(mul_matrices.matriz);
+    
+    //free(vec.matriz);
     free(mul_matrices.matrizA);
     free(mul_matrices.matrizB);
+    free(vec);  
+    pthread_exit(NULL);
 
-
-
-/*
-  int h;
-  //impar=(x%3)==0;
-  if (x<=2){
-  for (h=0;h<x;h++){
-    //printf("%d\nacah", h);
-    mul_matrices.estado=h;
-    pthread_create(&hilo3,NULL,multiplicar_matricesfila,(void *)&mul_matrices);
-    pthread_join(hilo3,NULL);
-
-  }}
-  else if( x % 2 == 0){
-  for (h=0;h<x;){
-    //printf("%d\nacah", h);
-    //printf("entro a par" );
-    mul_matrices.estado=h;
-    pthread_create(&hilo3,NULL,multiplicar_matricesfila,(void *)&mul_matrices);
-    mul_matrices.estado2=h+1;
-    pthread_create(&hilo4,NULL,multiplicar_matricesfila2,(void *)&mul_matrices);
-    pthread_join(hilo3,NULL);    
-    pthread_join(hilo4,NULL);     
-    h=h+2;
-  }
-  }
-  else if(x % 3 == 0){
-  for (h=0;h<x;){
-    //printf("entro impar"); 
-    //printf("%d\nacah", h);
-    mul_matrices.estado=h;
-    pthread_create(&hilo3,NULL,multiplicar_matricesfila,(void *)&mul_matrices);
-    mul_matrices.estado2=h+1;
-    pthread_create(&hilo4,NULL,multiplicar_matricesfila2,(void *)&mul_matrices);
-    mul_matrices.estado3=h+2;
-    pthread_create(&hilo5,NULL,multiplicar_matricesfila3,(void *)&mul_matrices);
-    pthread_join(hilo3,NULL);    
-    pthread_join(hilo4,NULL);   
-    pthread_join(hilo5,NULL);     
-    h=h+3;
-  }
-  }
-
-  end_t = clock();
-  duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
-  printf("%f\n",duration);
-*/
  return 0;
 }

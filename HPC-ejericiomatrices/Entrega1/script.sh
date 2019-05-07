@@ -19,22 +19,22 @@ echo "" &> datosexcel.ods
 
 
 
-#for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 
+#for VARIABLE in 1000  
 #do
 	#echo $VARIABLE
-	#./mahilos $VARIABLE &>> datosexcel.ods
+#	./mahilos $VARIABLE &>> datosexcel.ods
 #done
 
-#for VARIABLE in 100 200 300 400 500
+#for VARIABLE in 100 
 #do
 	#echo $VARIABLE
-#	./mapro $VARIABLE &>> datosexcel.ods
+	#./mapro $VARIABLE &>> datosexcel.ods
 #done
 
 
-python Matrices_Serial.py 8 &>> datosexcel.ods
-python Matrices_Hilos_Python.py 8 &>> datosexcel.ods
-python Matrices_Procesos_Python.py 8 &>> datosexcel.ods
+#python Matrices_Serial.py 8 &>> datosexcel.ods
+#python Matrices_Hilos_Python.py 8 &>> datosexcel.ods
+#python Matrices_Procesos_Python.py 8 &>> datosexcel.ods
 
 
 
