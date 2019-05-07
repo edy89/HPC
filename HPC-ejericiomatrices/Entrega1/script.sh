@@ -11,11 +11,11 @@ echo "" &> datosexcel.ods
 #./mulmapa 3 &>> datosexcel.ods
 #./maed 10 &>> datosexcel.ods
 
-#for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 
-#do
-	#echo $VARIABLE
-	#./maed $VARIABLE &>> datosexcel.ods
-#done
+for VARIABLE in 100 200 300 400 500 600 700 800 900 1000 
+do
+	echo $VARIABLE
+	./maed $VARIABLE &>> datosexcel.ods
+done
 
 
 
