@@ -35,7 +35,7 @@ void write_solution(int n, double* u, const char* fname)
 int main(int argc, char** argv)
 {
     int i;
-    int n, nsteps;
+    int n, nsteps,sweep;
     double* u;
     double* f;
     double* aux;
@@ -43,9 +43,7 @@ int main(int argc, char** argv)
     timing_t tstart, tend;
     char* fname;
     pid_t pid;
-    key_t clave;  //Clave de acceso a la zona de memoria
-    long int id;  //Identificador de la zona de memoria
-    double *pmem = NULL;  //Puntero a la zona de memoria
+
 
     /* Process arguments */
     n      = (argc > 1) ? atoi(argv[1]) : 100;
@@ -53,9 +51,6 @@ int main(int argc, char** argv)
     fname  = (argc > 3) ? argv[3] : NULL;
     h      = 1.0/n;
 
-    clave = ftok("/bin/ls",33); //Cualquier fichero existente y cualquier int
-    id    = shmget(clave,sizeof(int) * n,0777|IPC_CREAT);
-    pmem  = (double *)shmat(id,(double *)0,0);
 
     /* Allocate and initialize arrays */
     u   = (double*) calloc( (n+1), sizeof(double) );
@@ -73,8 +68,11 @@ int main(int argc, char** argv)
          for(i = 1; i < n; ++i) 
             {
               pid= fork(); //Crea el proceso hijo
-              aux[i]  = jacobi_values(n, u, f,i);
-              u[i] = jacobi_values(n, aux, f,i);
+              for (sweep = 0; sweep < nsteps; sweep += 2)
+              {
+              	aux[i]  = jacobi_values(n, u, f,i);
+              	u[i] = jacobi_values(n, aux, f,i);
+              }
               
               if(pid != 0) //ve si el proceso hijo termino de ejecutarse
                 break; 
