@@ -62,6 +62,34 @@ void *thr_func(void *arg) {
     pthread_exit(NULL);
 }
 
+
+void *thr_func2(void *arg) {
+    thread_data_t *data = (thread_data_t *)arg;
+
+    //printf("hello from thr_func, thread id: %d\n", data->tid);
+    
+
+    double *u;
+    double *f;
+    double *utmp;
+    int i,nsweeps;
+
+    double h  = 1.0 / data->n;
+    double h2 = h*h;
+
+    u=data->v1;
+    f=data->v2;
+    utmp=data->utmp;
+    i=data->tid;
+        
+    u[i] = (utmp[i-1] + utmp[i+1] + h2*f[i])/2;
+
+    //printf("%f\n",utmp[i]);
+    
+    pthread_exit(NULL);
+}
+
+
 void* diva(void* arg)
 {
     
@@ -230,7 +258,7 @@ int main(int argc, char** argv)
     vec1.nsteps=nsweeps;
 
     pthread_t thr[n+1];
-    int rc;
+    int rc,j;
     /* create a thread_data_t argument array */
     thread_data_t thr_data[n+1];
 
@@ -276,13 +304,29 @@ int main(int argc, char** argv)
             pthread_join(thr[i], NULL);
             vec1.utmp[i]=thr_data[i].utmp[i];   
             }
+
+
+        for (int i = 1; i < n; ++i)
+            {
+            thr_data[i].utmp=vec1.utmp;                
+            }    
         
         /* Old data in utmp; new data in u */
         for (i = 1; i < n; ++i){            
-            u[i] = (vec1.utmp[i-1] + vec1.utmp[i+1] + h2*f[i])/2;
+            //u[i] = (vec1.utmp[i-1] + vec1.utmp[i+1] + h2*f[i])/2;
+            
+            thr_data[i].tid = i;
+
+            if ((rc = pthread_create(&thr[i], NULL, thr_func2, &thr_data[i]))) {
+              fprintf(stderr, "error: pthread_create, rc: %d\n", rc);
             }
+            }
+        for (i = 1; i < n; ++i) {
+            pthread_join(thr[i], NULL);
+            vec1.v1[i]=thr_data[i].v1[i];   
+            }    
         for (i = 1; i < n; i++){
-            thr_data[i].v1=u;
+            thr_data[i].v1=vec1.v1;
         }
 
     }

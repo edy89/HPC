@@ -73,18 +73,22 @@ void *newtask2(void *_number)
   struct invento *x = _number;
 
   /* BLOCK */
-  pthread_mutex_lock(&x->mutex);
+  //pthread_mutex_lock(&x->mutex);
   /* BLOCK */
   
   //int number = x->number;
   //numberSearch();
+  int i;
+  for(i=0;i<x->num;i++){
+    numberSearch();
+  }
   //x->number = number+1;
-  //x->num = x->num +1;
+  x->num = x->num +1;
   printf("%d num\n", x->num);
 
 
   /* UNBLOCK */
-  pthread_mutex_unlock(&x->mutex);
+  //pthread_mutex_unlock(&x->mutex);
   /* UNBLOCK */
 
   //printf ("THREAD: number = %d\n", vars->number);
@@ -112,8 +116,8 @@ int main (int argc, char *argv[])
        //printf("%d\n", rc);
       
      }
-*/
-   for (i=0; i<10; ++i)
+  */
+   for (i=0; i<5000; ++i)
      {
        pthread_create(&thread, NULL, newtask2, estructura);
        printf("%d invento \n", estructura->num);

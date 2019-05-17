@@ -1,4 +1,4 @@
-#include "timing.h"
+//#include "timing.h"
 
 #if defined(CLOCK_HIGHRES)
 #  define CLOCK CLOCK_HIGHRES
