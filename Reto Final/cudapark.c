@@ -24,8 +24,6 @@ void *llenar_matriz(void *args)
 	   {
 	    m -> V[i] = rand() % 2;
 	 }
-
-	 
     
     for(i = 0;i < m -> dimension; i++)
        {
@@ -37,26 +35,35 @@ void *llenar_matriz(void *args)
 
 
 
+void funcion(void *args){
 
-int casos(int a, int b){
-	int x,y;
-	if 	   (a==0 && b==0){x=0;y=0;}
-	else if(a==0 && b==1){x=0;y=1;}
-	else if(a==1 && b==0){x=0;y=1;}
-	else if(a==1 && b==1){x=1;y=1;}
-	return x,y;
-}
-
-void  funcion(void *args){
-
-  pack_matrices  *m = (pack_matrices *)args;
-  int i,j,x;
+ 	pack_matrices  *m = (pack_matrices *)args;
+ 	int i,j,x;
   
 
 
+  	for(int i=0;i<x-1;i++){
+		a=m -> V[i];
+		b=mul_matrices.V[i+1];
+		if 	   (a==0 && b==0){x1=0;y1=0;u=0;}
+		else if(a==0 && b==1){x1=0;y1=1;u=0;}
+		else if(a==1 && b==0){x1=0;y1=1;u=1;}
+		else if(a==1 && b==1){x1=1;y1=1;u=0;}
+
+ 		if (u==1)
+ 		{
+ 			mul_matrices.N[i]=x1;
+ 			mul_matrices.N[i+1]=y1;	
+ 			i++;
+ 		}
+ 		else{
+ 			mul_matrices.N[i]=x1;
+ 			mul_matrices.N[i+1]=y1;
+ 		}
+	} 
+
+
 } 
-
-
 
 
 
@@ -79,8 +86,25 @@ int main(int argc, char *argv[])
     cantidadinter=p;
     printf("%d\n", cantidadinter);
 
+	float* h_A = (float*)malloc(x);
+	float* h_B = (float*)malloc(x);
 
-   
+	// declare device vectors in the device (GPU) memory
+	float *d_A,*d_B;
+
+	for(i = 0;i < x ; i++)
+	{
+		h_A[i] = rand() % 2;
+	}   
+
+	cudaMalloc(&d_A, x);
+	cudaMalloc(&d_B, x);
+
+
+	cudaMemcpy(d_A, h_A, x, cudaMemcpyHostToDevice);
+	cudaMemcpy(d_B, h_B, x, cudaMemcpyHostToDevice);
+
+
     pack_matrices mul_matrices;
     mul_matrices.dimension = x;
 
@@ -108,28 +132,12 @@ int main(int argc, char *argv[])
 		int y1=0;
 		int u=0;
 
-		for(int i=0;i<x-1;i++){
-			a=mul_matrices.V[i];
-			b=mul_matrices.V[i+1];
-			if 	   (a==0 && b==0){x1=0;y1=0;u=0;}
-			else if(a==0 && b==1){x1=0;y1=1;u=0;}
-			else if(a==1 && b==0){x1=0;y1=1;u=1;}
-			else if(a==1 && b==1){x1=1;y1=1;u=0;}
 
-	 		if (u==1)
-	 		{
-	 			mul_matrices.N[i]=x1;
-	 			mul_matrices.N[i+1]=y1;	
-	 			i++;
-	 		}
-	 		else{
-	 			mul_matrices.N[i]=x1;
-	 			mul_matrices.N[i+1]=y1;
-	 		}
-			 
-		}
+		//llamar funcion con cuda
+		//inicialmente llamar 3 cudas 
+
 		
-
+		
 		int a1,b1;
 		a=mul_matrices.V[x-1];
 		b=mul_matrices.V[0];
@@ -142,17 +150,7 @@ int main(int argc, char *argv[])
 			mul_matrices.N[x-1]=a1;
 			mul_matrices.N[0]=b1;					//guardamos los resultados en el result
 		}
-		
-
-
-		for(i = 0;i < mul_matrices.dimension ; i++)
-		{
-		  	mul_matrices.V[i] = mul_matrices.N[i];
-		} 
-
-
-
-		printf("\nMATRIZ resultado\n" );
+	
 	    for(i = 0;i < mul_matrices.dimension; i++)
 	       {
 	      printf("[ %d ]", mul_matrices.V[i]);
@@ -162,11 +160,15 @@ int main(int argc, char *argv[])
 
     end_t = clock();
     duration = (double)(end_t - start_t) / CLOCKS_PER_SEC;
-    printf("\nEL tiempo fue: %f",duration);
-
-	printf("\n" );
-
-    free(mul_matrices.N);
+    printf("\nEL tiempo fue: %f",duration	printf("\n" );    free(mul_matrices.N);
     free(mul_matrices.V);
+
+    cudaFree(d_A);
+  	cudaFree(d_B);
+
+	delete[] h_A;
+	delete[] h_B;
+
+	return cudaDeviceSynchronize();
 
 }
