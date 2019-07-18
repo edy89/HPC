@@ -138,6 +138,8 @@ int main(int argc, char *argv[])
     double duration;
 
 
+
+
     
     int parametro,x,u,y = 0,z = 0;
     parametro=atoi(argv[1]);
@@ -208,10 +210,6 @@ int main(int argc, char *argv[])
        pthread_create(&hilo2,NULL,multiplicar_filas,(void *)vec);
        //printf("%d\n",vec[h].fila_actual );   
     }
-
-
-
-
 
     //  printf("%d\n aca", v->matriz[0][2]);       
     pthread_join(hilo2,NULL);

@@ -7,7 +7,9 @@ int main(int argc, char const *argv[])
 {
 	int i, j;
 	srand(time(NULL));
-	int n = atoi(argv[1]);
+	//int n = atoi(argv[1]);
+	int n;
+	n=1000;	
 	int vector__1[n][n], vector__2[n][n], vector__res[n][n];
 	for(i = 0; i < n; i++)
 	{
@@ -39,7 +41,7 @@ int main(int argc, char const *argv[])
 
 	printf("\n");
 	/* realizar la multiplicación en paralelo */
-	/*
+	
 	#pragma omp parallel
 	{
 		int i, j, k, suma = 0;
@@ -63,6 +65,6 @@ int main(int argc, char const *argv[])
 			printf("%d ", vector__res[i][j]);
 		}
 		printf("\n");
-	}*/
+	}
 	return 0;
 }
